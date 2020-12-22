@@ -26,6 +26,8 @@ to the client. The frontend throttles all the updates and applies them on the sc
 The application also shows the number of received messages, and computes the average messages
 received per second and per minute.
 
+![Demo video showcasing 18k messages per minute](./recordings/18k-msgs.gif)
+
 ## Running the demo
 
 After pulling the repository, do the following:
