@@ -11,7 +11,7 @@ const tableSize = {
   height: 10,
 };
 // ms between updates of the table
-const TABLE_REFRESH_INTERVAL = 50;
+const TABLE_REFRESH_INTERVAL = 200;
 // ms between updates of the status bar
 const STATUS_REFRESH_INTERVAL = 200;
 
@@ -54,7 +54,7 @@ function init() {
       const elapsedMs = Date.now() - connectionBeginTimestamp;
       const elapsedSecondsSinceStart = Math.round(elapsedMs / 10) / 100;
       const messagesPerSecond = (messagesReceived / elapsedMs) * 1000;
-      statusElement.textContent = `Received messages: ${messagesReceived} in ${elapsedSecondsSinceStart} seconds (${Math.round(
+      statsElement.textContent = `Received messages: ${messagesReceived} in ${elapsedSecondsSinceStart} seconds (${Math.round(
         messagesPerSecond
       )} messages/s, ${Math.round(messagesPerSecond * 60)} messages/min)`;
     }, STATUS_REFRESH_INTERVAL);

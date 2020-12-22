@@ -20,7 +20,7 @@ messages in the shape of
 }
 ```
 
-to the client. The frontend throttles all the updates and applies them on the screen every 50ms
+to the client. The frontend throttles all the updates and applies them on the screen every 100ms
 (configurable by `TABLE_REFRESH_INTERVAL`).
 
 The application also shows the number of received messages, and computes the average messages

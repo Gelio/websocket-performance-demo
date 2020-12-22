@@ -23,7 +23,11 @@ export class LiveTable {
     });
 
     this._state = Array.from({ length: tableSize.height }).map(() =>
-      Array.from({ length: tableSize.width }).fill(0)
+      Array.from({ length: tableSize.width }).map(() => ({
+        value: 0,
+        dirty: true,
+        recentlyUpdated: false,
+      }))
     );
   }
 
@@ -32,7 +36,9 @@ export class LiveTable {
    * @param {{ row: number, column: number, value: number }} updateData
    */
   setState(updateData) {
-    this._state[updateData.row][updateData.column] = updateData.value;
+    const cellState = this._state[updateData.row][updateData.column];
+    cellState.value = updateData.value;
+    cellState.dirty = true;
   }
 
   refreshCells() {
@@ -40,7 +46,17 @@ export class LiveTable {
       const rowState = this._state[rowIndex];
 
       row.forEach((cell, cellIndex) => {
-        cell.innerText = rowState[cellIndex];
+        const cellState = rowState[cellIndex];
+
+        if (cellState.dirty) {
+          cell.innerText = cellState.value;
+          cell.classList.add('hot');
+          cellState.dirty = false;
+          cellState.recentlyUpdated = true;
+        } else if (cellState.recentlyUpdated) {
+          cellState.recentlyUpdated = false;
+          cell.classList.remove('hot');
+        }
       });
     });
   }
