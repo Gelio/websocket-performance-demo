@@ -10,8 +10,9 @@ const tableSize = {
   width: 30,
   height: 10,
 };
-// ms between UI updates
+// ms between updates of the table
 const TABLE_REFRESH_INTERVAL = 50;
+// ms between updates of the status bar
 const STATUS_REFRESH_INTERVAL = 200;
 
 init();
@@ -31,7 +32,7 @@ function init() {
   let messagesReceived = 0;
   let connectionBeginTimestamp = 0;
 
-  const socket = new WebSocket('ws://localhost:3000');
+  const socket = new WebSocket(`ws://${window.location.host}`);
 
   reportStatus('Connecting to the server');
 
