@@ -26,7 +26,27 @@ to the client. The frontend throttles all the updates and applies them on the sc
 The application also shows the number of received messages, and computes the average messages
 received per second and per minute.
 
-![Demo video showcasing 18k messages per minute](./recordings/18k-msgs.gif)
+## Results
+
+The browser handled 18k messages per minute without any problem. The UI was responsive.
+
+![Demo video showcasing 18k messages per minute](./results/18k-msgs.gif)
+
+![Chrome Performance tab results from the demo](./results/perf-tab.png)
+
+The performance tab shows that there was little processing time. Most of the time during each frame
+was spent on rendering and painting (1386ms and 630ms, respectively, around 30% in total), compared
+to only 574ms (8%) spent in JavaScript, processing each message. The browser spent 50% of the time
+idle.
+
+| Task type | Time spent (ms) | Percentage time spent |
+| --------- | --------------- | --------------------- |
+| Scripting | 574             | 8%                    |
+| Rendering | 1386            | 20%                   |
+| Painting  | 630             | 9%                    |
+| System    | 833             | 13%                   |
+| Idle      | 3424            | 50%                   |
+| Total     | 6848            | 100%                  |
 
 ## Running the demo
 
