@@ -3,16 +3,17 @@ const express = require('express');
 const path = require('path');
 const http = require('http');
 const WebSocket = require('ws');
+const NanoTimer = require('nanotimer');
 
 const app = express();
 const httpServer = http.createServer(app);
 
 const PORT = parseInt(process.env.PORT, 10) || 3000;
-const MESSAGES_PER_MINUTE = 20000;
+const MESSAGES_PER_MINUTE = 10000 * 2;
 // Max value to appear in the table
 const MAX_TABLE_VALUE = 100;
 
-const MESSAGE_INTERVAL = 60000 / MESSAGES_PER_MINUTE;
+const MESSAGE_INTERVAL = `${(60000 / MESSAGES_PER_MINUTE) * 1000}u`;
 
 const frontendPath = path.join(__dirname, '../../frontend');
 
@@ -25,7 +26,8 @@ const wss = new WebSocket.Server({ server: httpServer });
  */
 const handleNewConnection = (socket) => {
   console.log('a user connected');
-  let intervalId = null;
+  const timer = new NanoTimer();
+  let running = false;
 
   socket.on('message', (rawMessage) => {
     if (typeof rawMessage !== 'string') {
@@ -40,7 +42,7 @@ const handleNewConnection = (socket) => {
       return;
     }
 
-    if (intervalId != null) {
+    if (running) {
       console.log('Ignoring the duplicated `ready` message');
       return;
     }
@@ -50,19 +52,24 @@ const handleNewConnection = (socket) => {
       message.tableSize
     );
 
-    intervalId = setInterval(() => {
-      socket.send(
-        JSON.stringify({
-          type: 'table update',
-          updateData: getRandomTableUpdate(message.tableSize),
-        })
-      );
-    }, MESSAGE_INTERVAL);
+    running = true;
+    timer.setInterval(
+      () => {
+        socket.send(
+          JSON.stringify({
+            type: 'table update',
+            updateData: getRandomTableUpdate(message.tableSize),
+          })
+        );
+      },
+      [],
+      MESSAGE_INTERVAL
+    );
   });
 
   socket.once('close', () => {
     console.log('A user disconnected');
-    clearInterval(intervalId);
+    timer.clearInterval();
     socket.removeAllListeners();
   });
 

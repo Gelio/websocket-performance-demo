@@ -11,6 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
+    "nanotimer": "^0.3.15",
     "ws": "^7.4.1"
   },
   "devDependencies": {}
