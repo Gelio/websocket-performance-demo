@@ -1,0 +1,17 @@
+{
+  "folders": [
+	{
+		"path": "backend/deno"
+	},
+	{
+		"path": "backend/go"
+	},
+	{
+		"path": "backend/node"
+	},
+	{
+		"path": "frontend"
+	}
+],
+  "settings": {}
+}
