@@ -69,6 +69,9 @@ and go to <http://localhost:3000>
 
 ### Frontend
 
-1. `tableSize` (the number of rows and columns)
-2. `TABLE_REFRESH_INTERVAL`
-3. `STATUS_REFRESH_INTERVAL`
+See [the frontend readme](./frontend/README.md).
+
+## Alternative backends
+
+To experiment with multiple frameworks/languages, there are alternative WebSocket server
+implementations in the [backend](./backend) directory. Each comes with a separate README.
